@@ -1,0 +1,31 @@
+{
+  "version": "31.0",
+  "retrievedAt": "2026-10-08T10:20:34.389Z",
+  "attribution": "O*NET 31.0, USDOL/ETA, CC BY 4.0. Adapted for title lookup and task display; no endorsement.",
+  "files": [
+    {
+      "file": "occupation_data.csv",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/occupation_data.csv",
+      "sha256": "a09eae1d6609686e44e05b7290993a1c8b523d8ca224bc0eedc194c855c3ee02",
+      "bytes": 268030
+    },
+    {
+      "file": "job_titles.csv",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/job_titles.csv",
+      "sha256": "75a3b46d6edc5996117c10c9ed488c9a06f7495d02969e9d12873ab14a21540c",
+      "bytes": 4504432
+    },
+    {
+      "file": "task_statements.csv",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/task_statements.csv",
+      "sha256": "4568e14d8db6f05551ad37e056e909b13ebae4a26bcb5ff915bb5f281d582c57",
+      "bytes": 3461375
+    },
+    {
+      "file": "software_skills.csv",
+      "url": "https://www.onetcenter.org/dl_files/database/db_31_0_csv/software_skills.csv",
+      "sha256": "6aabb96b464288db849580e6510530efff3f80e25dde2bb23f1fc36bb526b016",
+      "bytes": 3557545
+    }
+  ]
+}

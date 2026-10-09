@@ -1,0 +1,18 @@
+const fs = require('node:fs');
+const path = 'src/server/repository.ts';
+let s = fs.readFileSync(path, 'utf8');
+const start = s.indexOf('export async function seedCatalogue');
+const end = s.indexOf('export async function catalogue');
+fs.writeFileSync('tests/fixtures/seed.ts', "// Artificial test fixtures only. Never imported by application code.\nimport {makePeople,skills as baseSkills,sources,locations} from '../../src/lib/catalogue';\nimport type {Query} from '../../src/server/db';\nconst json=JSON.stringify;\n" + s.slice(start,end));
+s = s.slice(0,start) + s.slice(end);
+s = s.replace('makePeople, skills as baseSkills, sources, locations, defaultInput, stageNames', 'stageNames');
+const a=s.indexOf('  if(sandboxEnabled()){'), b=s.indexOf('  const {people,skills}=await catalogue(q);',a);
+s=s.slice(0,a)+s.slice(b);
+s=s.replace("source:'Simulated'", "source:'Approved internal work item'");
+const c=s.indexOf("  if(status==='In Progress'){"), d=s.indexOf("  await q('UPDATE actions",c);
+s=s.slice(0,c)+"  if(status==='Completed'&&note.trim().length<20)throw new AppError(422,'Include a completion evidence reference and outcome (at least 20 characters).');\n"+s.slice(d);
+s=s.replace('All simulator actions completed.', 'All work items marked completed by their accountable owners.');
+fs.writeFileSync(path,s);
+fs.writeFileSync('scripts/seed.ts', "throw new Error('Operational seeding is disabled. Import authorized records through Data connections.');\nexport {};\n");
+const env=fs.readFileSync('.env.local','utf8').replace(/LOCAL_DATABASE_PATH=.*/, 'LOCAL_DATABASE_PATH=.local/real-workforce');
+fs.writeFileSync('.env.local',env);

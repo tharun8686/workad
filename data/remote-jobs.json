@@ -1,0 +1,199 @@
+{
+  "source": "https://remotive.com/api/remote-jobs?category=software-dev&limit=100",
+  "provider": "Remotive",
+  "retrievedAt": "2026-10-08T11:40:11.665Z",
+  "checksum": "58e2bf3b7dbc627865008a17d17e8a13510698304dac189c8207b56412b5ddc3",
+  "notice": "Remotive public API advertisements are delayed by 24 hours. Location restrictions and salary text are preserved as published. These advertisements measure demand, not available talent supply or verified Indian compensation benchmarks.",
+  "jobs": [
+    {
+      "id": "2091045",
+      "title": "Tier III Service Desk Engineer",
+      "company": "Unio Digital",
+      "location": "Worldwide",
+      "salaryText": "",
+      "publishedAt": "2026-10-07T01:11:09",
+      "url": "https://remotive.com/remote-jobs/information-technology/tier-iii-service-desk-engineer-2091045",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091149",
+      "title": "Software Engineer / AI Code Trainer (Python, Web, Full Stack)",
+      "company": "CodeForAI",
+      "location": "USA, UK, India, Australia, Ireland, New Zealand, Philippines, Pakistan, Singapore, Mexico",
+      "salaryText": "$45-$120/Hour",
+      "publishedAt": "2026-10-05T05:15:43",
+      "url": "https://remotive.com/remote-jobs/software-development/software-engineer-ai-code-trainer-python-web-full-stack-2091149",
+      "jobType": "contract"
+    },
+    {
+      "id": "1185979",
+      "title": "Freelance Writer",
+      "company": "IAPWE",
+      "location": "Worldwide",
+      "salaryText": "$50-$75 /hour",
+      "publishedAt": "2026-10-04T16:53:34",
+      "url": "https://remotive.com/remote-jobs/writing/freelance-writer-1185979",
+      "jobType": "freelance"
+    },
+    {
+      "id": "1749306",
+      "title": "Freelance Copywriter",
+      "company": "Coalition Technologies ",
+      "location": "Worldwide",
+      "salaryText": "$20k -$35k",
+      "publishedAt": "2026-10-02T20:01:00",
+      "url": "https://remotive.com/remote-jobs/writing/freelance-copywriter-1749306",
+      "jobType": "freelance"
+    },
+    {
+      "id": "2091133",
+      "title": "Senior React Full-stack Developer",
+      "company": "Lemon.io",
+      "location": "Europe, USA, Canada, APAC",
+      "salaryText": "",
+      "publishedAt": "2026-10-02T13:30:06",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-react-full-stack-developer-2091133",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091132",
+      "title": "Senior back-end Engineer",
+      "company": "Lemon.io",
+      "location": "Europe, USA, UK, Canada, Australia, Ireland, Switzerland, Singapore, Mexico, Iceland, Norway",
+      "salaryText": "",
+      "publishedAt": "2026-09-30T13:15:26",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-back-end-engineer-2091132",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091144",
+      "title": "Content Reviewer - United States",
+      "company": "TELUS Digital",
+      "location": "USA",
+      "salaryText": "",
+      "publishedAt": "2026-09-21T12:55:11",
+      "url": "https://remotive.com/remote-jobs/all-others/content-reviewer-united-states-2091144",
+      "jobType": "part_time"
+    },
+    {
+      "id": "2091141",
+      "title": "Frontend Web Application Developer",
+      "company": "KoboToolbox",
+      "location": "USA, Canada, Argentina, Mexico, Peru",
+      "salaryText": "$90k - $105k",
+      "publishedAt": "2026-09-18T16:43:22",
+      "url": "https://remotive.com/remote-jobs/design/frontend-web-application-developer-2091141",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091140",
+      "title": "Senior Shopify Developer",
+      "company": "Sanctuary Computer Inc",
+      "location": "Worldwide",
+      "salaryText": "$80k - $150k",
+      "publishedAt": "2026-09-18T15:10:28",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-shopify-developer-2091140",
+      "jobType": "contract"
+    },
+    {
+      "id": "2091139",
+      "title": "🇩🇪 Kundenservice Mobilfunk Inbound - innerhalb der EU (ausgenommen: Deutschland)",
+      "company": "hey contact heroes GmbH",
+      "location": "Europe",
+      "salaryText": "",
+      "publishedAt": "2026-09-18T13:00:47",
+      "url": "https://remotive.com/remote-jobs/customer-service/kundenservice-mobilfunk-inbound-innerhalb-der-eu-ausgenommen-deutschland-2091139",
+      "jobType": "freelance"
+    },
+    {
+      "id": "2091131",
+      "title": "Senior AI Engineer",
+      "company": "Lemon.io",
+      "location": "Northern America, LATAM, Europe, APAC",
+      "salaryText": "",
+      "publishedAt": "2026-09-18T12:23:56",
+      "url": "https://remotive.com/remote-jobs/artificial-intelligence/senior-ai-engineer-2091131",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091130",
+      "title": "Senior .NET Full-stack Developer",
+      "company": "Lemon.io",
+      "location": "Northern America, LATAM, Europe, APAC",
+      "salaryText": "",
+      "publishedAt": "2026-09-17T13:22:05",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-net-full-stack-developer-2091130",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091129",
+      "title": "Senior Data Scientist",
+      "company": "Lemon.io",
+      "location": "Northern America, LATAM, Europe, APAC",
+      "salaryText": "",
+      "publishedAt": "2026-09-16T12:35:28",
+      "url": "https://remotive.com/remote-jobs/data/senior-data-scientist-2091129",
+      "jobType": "full_time"
+    },
+    {
+      "id": "1919265",
+      "title": "Senior Independent Software Developer",
+      "company": "A.Team",
+      "location": "Americas, Europe, Israel",
+      "salaryText": "$90 - $150 /hour",
+      "publishedAt": "2026-09-16T10:10:59",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-independent-software-developer-1919265",
+      "jobType": "contract"
+    },
+    {
+      "id": "1919266",
+      "title": "Senior Independent AI Engineer / Architect",
+      "company": "A.Team",
+      "location": "Americas, Europe, Israel",
+      "salaryText": "$120 - $170 /hour",
+      "publishedAt": "2026-09-16T10:10:53",
+      "url": "https://remotive.com/remote-jobs/software-development/senior-independent-ai-engineer-architect-1919266",
+      "jobType": "contract"
+    },
+    {
+      "id": "2069746",
+      "title": "Tech Lead Full-Stack Rails Engineer",
+      "company": "Mitre Media",
+      "location": "USA, Canada, USA timezones",
+      "salaryText": "$170k - $200k",
+      "publishedAt": "2026-09-14T20:33:27",
+      "url": "https://remotive.com/remote-jobs/software-development/tech-lead-full-stack-rails-engineer-2069746",
+      "jobType": "full_time"
+    },
+    {
+      "id": "1680495",
+      "title": "Remote Office Assistant",
+      "company": "Coalition Technologies ",
+      "location": "Worldwide",
+      "salaryText": "$35,3k- $52k",
+      "publishedAt": "2026-09-11T20:16:48",
+      "url": "https://remotive.com/remote-jobs/marketing/remote-office-assistant-1680495",
+      "jobType": "full_time"
+    },
+    {
+      "id": "2091126",
+      "title": "AI Response Evaluator",
+      "company": "iMerit Technology",
+      "location": "France, Japan, Turkey, Vietnam, Mexico, Norway",
+      "salaryText": "$10K-$20K",
+      "publishedAt": "2026-09-11T06:49:00",
+      "url": "https://remotive.com/remote-jobs/artificial-intelligence/ai-response-evaluator-2091126",
+      "jobType": "freelance"
+    },
+    {
+      "id": "2086540",
+      "title": "Inside Sales Contractor",
+      "company": "Credit Wellness, LLC",
+      "location": "Worldwide",
+      "salaryText": "OTE $25k - $35k",
+      "publishedAt": "2026-09-08T21:47:54",
+      "url": "https://remotive.com/remote-jobs/sales/inside-sales-contractor-2086540",
+      "jobType": "full_time"
+    }
+  ]
+}

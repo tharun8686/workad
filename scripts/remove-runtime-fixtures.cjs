@@ -1,0 +1,20 @@
+const fs=require('node:fs');
+const original=fs.readFileSync('src/lib/catalogue.ts','utf8');
+fs.writeFileSync('tests/fixtures/catalogue.ts',original.replace("from './types'","from '../../src/lib/types'"));
+const stage=original.slice(original.indexOf('export const stageNames'));
+fs.writeFileSync('src/lib/catalogue.ts',"import type {Skill,RequirementInput} from './types';\nexport const skills:Skill[]=[];\nexport const roles:string[]=[];\nexport const locations=['Bengaluru','Hyderabad','Pune','Chennai','Delhi NCR','Remote'];\nexport const defaultInput:RequirementInput={role:'',headcount:1,location:'Bengaluru',budget:0,deadline:30,experienceMin:0,experienceMax:50,mandatorySkills:[],optionalSkills:[],skillWeights:{},businessUnit:'',priority:'Standard',durationMonths:12,repetitivePct:0,remoteAllowed:false,rawText:''};\n"+stage);
+let s=fs.readFileSync('src/lib/engine.ts','utf8');
+s=s.replace('const trainingDays=missing.reduce', 'const trainingKnown=missing.every(s=>{const skill=catalogue.find(x=>x.name===s);return skill?.trainingDays!=null&&skill?.trainingCost!=null;});\n  const trainingDays=missing.reduce');
+s=s.replace('?.trainingDays??60','?.trainingDays??0').replace('?.trainingCost??50000','?.trainingCost??0');
+s=s.replace('suitable:skillMatch>=60',"suitable:(p.kind!=='employee'||trainingKnown)&&skillMatch>=60");
+s=s.replace("// Recruiting fee 8% of annual salary. Candidate salary is simulator evidence, not a market benchmark.","// Explicit planning convention: recruiting fee is 8% of annual salary. Source salaries come from authorized imports.");
+s=s.replace('All costs are simulated planning estimates, not verified market benchmarks.','Forecast using imported observations and disclosed planning assumptions; not a quote or guaranteed outcome.');
+s=s.replace('ATS simulator estimates only.','Imported candidate expectations and disclosed forecast assumptions only.');
+s=s.replace("evidence:['hris','vms','ats','lms','assumptions']", "evidence:[...new Set(people.map(p=>p.sourceId)),'Planning assumptions']");
+s=s.replace('(.5*(5/8)+.3*inputQuality+.2*separation)','(.5*(people.length?new Set(people.map(p=>p.kind)).size/3:0)+.3*inputQuality+.2*(people.length?separation:0))');
+s=s.replace('const candidates=ranked.filter(p=>p.kind===\'candidate\'&&p.skillMatch>=60',"const candidates=ranked.filter(p=>p.kind==='candidate'&&p.suitable&&p.skillMatch>=60");
+s=s.replace("p.kind==='candidate'&&p.skillMatch>=60&&(s.location", "p.kind==='candidate'&&p.suitable&&p.skillMatch>=60&&(s.location");
+fs.writeFileSync('src/lib/engine.ts',s);
+for(const file of ['tests/engine.test.ts','tests/workflow.test.ts']){s=fs.readFileSync(file,'utf8').replace("'../src/lib/catalogue'","'./fixtures/catalogue'");fs.writeFileSync(file,s);}
+s=fs.readFileSync('tests/fixtures/seed.ts','utf8').replace("'../../src/lib/catalogue'","'./catalogue'");fs.writeFileSync('tests/fixtures/seed.ts',s);
+s=fs.readFileSync('src/components/intake.tsx','utf8').replace("useState('We need 5 senior Python backend engineers in Bangalore within 45 days. Required skills are Python, FastAPI, PostgreSQL and Docker. Budget is 22 LPA per person.')","useState('')");fs.writeFileSync('src/components/intake.tsx',s);

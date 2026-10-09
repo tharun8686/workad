@@ -1,0 +1,12 @@
+'use client';
+import {useState,type FormEvent} from 'react';
+import {api} from './workspace-context';
+import {Panel,Field} from './common';
+import {Button} from './ui/button';
+import type {DiscoveryResult} from '@/server/discovery';
+
+export function PublicDiscovery(){
+ const [source,setSource]=useState('esco'),[result,setResult]=useState<DiscoveryResult|null>(null),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ async function search(e:FormEvent<HTMLFormElement>){e.preventDefault();const f=new FormData(e.currentTarget);setBusy(true);setError('');setResult(null);try{setResult(await api('intelligence/discover',{source,query:source==='worldbank'?'inflation':f.get('query'),country:f.get('country')}));}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
+ return <Panel title="Explore public evidence" subtitle="Find standard skills, research and location context from public sources."><form className="panel-body" onSubmit={search}><Field label="Source"><select value={source} onChange={e=>{setSource(e.target.value);setResult(null);setError('');}}><option value="esco">ESCO skills</option><option value="openalex">OpenAlex learning research</option><option value="worldbank">World Bank economic context</option><option value="city">OpenStreetMap city lookup</option></select></Field>{source!=='worldbank'&&<Field label={source==='city'?'City name':'Skill or research topic'}><input name="query" required minLength={2} maxLength={160}/></Field>}<Field label="Country code"><input name="country" defaultValue="IN" required pattern="[A-Za-z]{2}" maxLength={2}/></Field><p>Search text is sent to the selected provider. Enter public skill, topic or city names only.</p>{source==='city'&&<p>City searches run only when submitted, are cached, and are limited to one request per second per server. Public-service use requires application-wide limits and compliance with the <a href="https://operations.osmfoundation.org/policies/nominatim/" target="_blank" rel="noreferrer">Nominatim usage policy</a>.</p>}<Button disabled={busy}>{busy?'Searching…':'Find public evidence'}</Button>{error&&<p role="alert">{error}</p>}{result&&<div role="status"><p>{result.source} · Retrieved {new Date(result.retrievedAt).toLocaleString()}</p><p>{result.notice}</p>{!result.items.length&&<p>No results found.</p>}{result.items.map((item,i)=><article key={i}><h3>{item.url?<a href={item.url} target="_blank" rel="noreferrer">{item.title}</a>:item.title}</h3><p>{item.detail}</p></article>)}</div>}</form></Panel>;
+}

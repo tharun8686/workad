@@ -1,0 +1,25 @@
+import {z} from 'zod';
+import {randomUUID} from 'node:crypto';
+import {transaction} from './db';
+import {AppError,type Actor} from './auth';
+const sourceURL=z.string().url().refine(s=>['https:','http:'].includes(new URL(s).protocol),'Use an HTTP source link.');
+const listing=z.object({id:z.string().min(1).max(250),title:z.string().min(2).max(250),location:z.string().min(2).max(250),url:sourceURL,postedAt:z.iso.datetime().nullable(),salaryMin:z.number().nonnegative().nullable(),salaryMax:z.number().nonnegative().nullable(),salaryPeriod:z.enum(['year','month','hour','unknown']),salaryPredicted:z.boolean()}).refine(v=>v.salaryMin===null||v.salaryMax===null||v.salaryMax>=v.salaryMin,'Salary maximum must not be below minimum.');
+const snapshot=z.object({role:z.string().trim().min(2).max(160),location:z.string().trim().min(2).max(160),country:z.enum(['in','gb','us']),currency:z.enum(['INR','GBP','USD']),source:z.string().trim().min(3).max(250),authority:z.string().trim().min(10).max(1000),retrievedAt:z.iso.datetime(),listings:z.array(listing).max(500)}).refine(v=>new Date(v.retrievedAt).getTime()<=Date.now()+60000,'Retrieval date cannot be in the future.');
+export type MarketSnapshot=z.infer<typeof snapshot>&{id:string;annualSalary:{sampleSize:number;p25:number|null;median:number|null;p75:number|null};notice:string};
+export async function saveMarket(a:Actor,input:unknown){const v=snapshot.parse(input);const currency={in:'INR',gb:'GBP',us:'USD'}[v.country];if(v.currency!==currency)throw new AppError(422,'Currency must match the selected country.');
+ const listings=[...new Map(v.listings.map(l=>[l.id,l])).values()];
+ const salaries=listings.filter(l=>!l.salaryPredicted&&l.salaryPeriod==='year'&&l.salaryMin!==null&&l.salaryMax!==null).map(l=>(l.salaryMin!+l.salaryMax!)/2).sort((a,b)=>a-b);
+ const percentile=(p:number)=>{if(!salaries.length)return null;const i=(salaries.length-1)*p;return salaries[Math.floor(i)]+(salaries[Math.ceil(i)]-salaries[Math.floor(i)])*(i%1);};
+ const result:MarketSnapshot={...v,listings,id:randomUUID(),annualSalary:{sampleSize:salaries.length,p25:percentile(.25),median:percentile(.5),p75:percentile(.75)},notice:'Observed advertisement sample, not available candidate supply. Salary percentiles use midpoints of explicitly published annual ranges; predicted, missing and other pay periods are excluded. No time-to-fill is inferred from listing age.'};
+ await transaction(a.id,q=>q('INSERT INTO market_observations(id,owner_id,provider,query,payload,retrieved_at) VALUES($1,$2,$3,$4,$5,$6)',[result.id,a.id,v.source,v.role+' | '+v.location,JSON.stringify(result),v.retrievedAt]));return result;
+}
+export async function marketHistory(a:Actor){return transaction(a.id,q=>q<{payload:MarketSnapshot}>('SELECT payload FROM market_observations WHERE owner_id=$1 ORDER BY retrieved_at DESC LIMIT 50',[a.id])).then(r=>r.rows.map(x=>x.payload));}
+export async function refreshMarket(a:Actor,input:unknown){const v=z.object({role:z.string().trim().min(2).max(160),location:z.string().trim().min(2).max(160),country:z.enum(['in','gb','us'])}).parse(input);
+ if(!process.env.ADZUNA_APP_ID||!process.env.ADZUNA_APP_KEY)throw new AppError(503,'Adzuna is not connected. Add its application ID and key, or import an authorized JSON snapshot below.');
+ const recent=await transaction(a.id,q=>q("SELECT id FROM market_observations WHERE owner_id=$1 AND provider='Adzuna' AND retrieved_at>now()-interval '1 minute' LIMIT 1",[a.id]));if(recent.rows.length)throw new AppError(429,'Wait one minute between market refreshes.');
+ const url=new URL('https://api.adzuna.com/v1/api/jobs/'+v.country+'/search/1');url.search=new URLSearchParams({app_id:process.env.ADZUNA_APP_ID,app_key:process.env.ADZUNA_APP_KEY,what:v.role,where:v.location,results_per_page:'50','content-type':'application/json'}).toString();
+ let response:Response;try{response=await fetch(url,{signal:AbortSignal.timeout(30000),cache:'no-store'});}catch{throw new AppError(502,'Job-data provider could not be reached.');}
+ if(!response.ok)throw new AppError(response.status===429?429:502,'Job-data provider rejected the request. Check account access, country coverage and quota.');
+ const body=z.object({results:z.array(z.object({id:z.union([z.string(),z.number()]),title:z.string(),location:z.object({display_name:z.string()}),redirect_url:sourceURL,created:z.string().optional(),salary_min:z.number().optional(),salary_max:z.number().optional(),salary_is_predicted:z.union([z.number(),z.string()]).optional()}))}).parse(await response.json());
+ return saveMarket(a,{...v,currency:{in:'INR',gb:'GBP',us:'USD'}[v.country],source:'Adzuna',authority:'Retrieved using the workspace owner-authorized Adzuna API account.',retrievedAt:new Date().toISOString(),listings:body.results.map(l=>({id:String(l.id),title:l.title,location:l.location.display_name,url:l.redirect_url,postedAt:l.created??null,salaryMin:l.salary_min??null,salaryMax:l.salary_max??null,salaryPeriod:'year',salaryPredicted:String(l.salary_is_predicted)!=='0'}))});
+}
